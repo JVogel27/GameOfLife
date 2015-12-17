@@ -2,7 +2,6 @@
 // created by Jesse on Nov 7th, 2015
 // A simple implementation of Conway's Game of Life using the <canvas> tag
 
-
 function Board(row, col){
     this.row = row;
     this.col = col;
@@ -29,8 +28,14 @@ function Cell(row, col, age, isAlive){
  * @param y - number of cols in the boards grid
  */
 function initBoard(){
-    var startButton = document.getElementById("start");
+    startButton = document.getElementById("start");
     startButton.onclick = start;
+
+    stopButton = document.getElementById("stop");
+    stopButton.onclick = stop;
+
+    stepButton = document.getElementById("step");
+    stepButton.onclick = step;
 
     //Board Dimensions
     var x = 50;
@@ -52,8 +57,16 @@ function initBoard(){
 }
 
 function start(){
-    initBoard();
-    setInterval(actionPerformed, 1000);
+    interval = setInterval(actionPerformed, 1000);
+}
+
+function stop(){
+    clearInterval(interval);
+}
+
+function step(){
+    stop();
+    actionPerformed();
 }
 
 /**

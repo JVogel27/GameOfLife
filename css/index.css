@@ -1,5 +1,14 @@
+html{
+    height: 100%;
+}
+body{
+    font-family: 'Raleway', sans-serif;
+    background-color: #FFFFFF;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
 #wrapper{
-    /*background-color: darkgray;*/
     display:block;
     width: 80%;
     margin-left: auto;
@@ -8,9 +17,13 @@
 #title {
     text-align: center;
 }
-#title h1, h3 {
+#title h1 {
+    margin: 0 0 0 0;
+    padding: 10px 0 10px 0;
+}
+#title h3 {
     margin: 0;
-    padding: 0;
+    padding: 0 0 15px 0;
 }
 #board{
 }
@@ -22,9 +35,14 @@
     margin-right:auto;
 }
 #controls{
-    width: 500px;
+    width:496px;
     margin-right: auto;
     margin-left: auto;
     margin-top: 25px;
-
+    padding: 5px;
+    background-color: #e8e3e3;
+}
+#controls h3{
+    margin: 0 0 15px 0;
+    pading: 0;
 }
