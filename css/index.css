@@ -1,0 +1,30 @@
+#wrapper{
+    /*background-color: darkgray;*/
+    display:block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#title {
+    text-align: center;
+}
+#title h1, h3 {
+    margin: 0;
+    padding: 0;
+}
+#board{
+}
+
+#life{
+    display:block;
+    border: 1px solid black;
+    margin-left:auto;
+    margin-right:auto;
+}
+#controls{
+    width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 25px;
+
+}
