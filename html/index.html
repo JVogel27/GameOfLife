@@ -17,15 +17,24 @@
     <div id="board">
         <canvas id="life" width="500" height="500"></canvas>
     </div>
+    <h3 id="controlsTitle">Game Controls</h3>
     <div id="controls">
-        <h3>Game Controls</h3>
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
-        <button id="step">Step</button>
-        <button id="reset">reset</button>
-        <br/>
-        <p>Density: </p>
-        <input id="density" type="text" name="density" value="0.2" maxlength="5" />
+        <div class="section">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button><br/>
+            <button id="step">Step</button>
+            <button id="reset">reset</button>
+        </div>
+        <div class="section">
+            <p>Density: </p>
+            <input id="density" type="text" name="density" value="0.2" maxlength="5" />
+        </div>
+        <div class="section">
+            <p>Speed: </p>
+            <input type="radio" name="speed" value="1000"/>Slow
+            <input type="radio" name="speed" value="300" checked="checked"/>Avg
+            <input type="radio" name="speed" value="100"/>Fast
+        </div>
     </div>
 </div>
 </body>

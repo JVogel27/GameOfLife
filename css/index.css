@@ -1,18 +1,19 @@
 html{
-    height: 100%;
+    min-height: 100%;
 }
 body{
     font-family: 'Raleway', sans-serif;
     background-color: #FFFFFF;
     padding: 0px;
     margin: 0px;
-    height: 100%;
+    min-height: 100%;
 }
 #wrapper{
     display:block;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 50px;
 }
 #title {
     text-align: center;
@@ -34,15 +35,27 @@ body{
     margin-left:auto;
     margin-right:auto;
 }
+#controlsTitle{
+    width:496px;
+    margin: 25px auto 0 auto;
+}
 #controls{
     width:496px;
+    min-height: 75px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 25px;
     padding: 5px;
     background-color: #e8e3e3;
 }
-#controls h3{
-    margin: 0 0 15px 0;
-    pading: 0;
+#controls p {
+    margin: 0;
+}
+.section{
+    display: inline-block;
+    float:left;
+    margin-right: 10px;
+}
+.section button {
+    padding: 5px;
+    margin: 5px;
 }

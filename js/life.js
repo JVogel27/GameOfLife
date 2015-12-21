@@ -35,7 +35,9 @@ $(document).ready(function(){
 
     //Set up buttons
     $("#start").click(function(){
-        interval = setInterval(actionPerformed, 500);
+        clearInterval(interval);
+        var speed = $("input[name=speed]:checked").val();
+        interval = setInterval(actionPerformed, speed);
     });
 
     $("#stop").click(function(){
