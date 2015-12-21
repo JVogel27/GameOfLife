@@ -1,11 +1,17 @@
-// file: life.js
-// created by Jesse on Nov 7th, 2015
-// A simple implementation of Conway's Game of Life using the <canvas> tag
+/**
+ * An implementation of Conway's Game of Life.
+ * Created by Jesse Vogel on Nov 7th, 2015.
+ **/
 
+//globals
+var board;
+var interval;
+
+//objects
 function Board(row, col){
     this.row = row;
     this.col = col;
-    this.grid = new Array();
+    this.grid = [];
     //add layer of padding
     for(var r = 0; r < row+2; r++){
         this.grid.push([]);
@@ -22,25 +28,34 @@ function Cell(row, col, age, isAlive){
     this.isAlive = isAlive;
 }
 
-/**
- * initialize the board object and all it's fields
- * @param x - number of rows in the boards grid
- * @param y - number of cols in the boards grid
- */
+$(document).ready(function(){
+    initBoard();
+
+    //Set up buttons
+    $("#start").click(function(){
+        interval = setInterval(actionPerformed, 500);
+    });
+
+    $("#stop").click(function(){
+        clearInterval(interval);
+    });
+
+    $("#step").click(function(){
+        clearInterval(interval);
+        actionPerformed();
+    });
+    $("#reset").click(function(){
+        clearInterval(interval);
+        initBoard();
+    })
+
+});
+
 function initBoard(){
-    startButton = document.getElementById("start");
-    startButton.onclick = start;
-
-    stopButton = document.getElementById("stop");
-    stopButton.onclick = stop;
-
-    stepButton = document.getElementById("step");
-    stepButton.onclick = step;
-
-    //Board Dimensions
+    //TODO these values will be read from controls
     var x = 50;
     var y = 50;
-    board = new Board(x, y);    //global
+    board = new Board(x, y);
     //initialize grid to random
     var grid = board.grid;
     for(var r = 1; r <= x; r++) {
@@ -56,30 +71,14 @@ function initBoard(){
     repaint();
 }
 
-function start(){
-    interval = setInterval(actionPerformed, 1000);
-}
-
-function stop(){
-    clearInterval(interval);
-}
-
-function step(){
-    stop();
-    actionPerformed();
-}
-
 /**
  * called each time the next generation of cells needs to be painted
  */
 function actionPerformed(){
-
     var newBoard = new Board(board.row, board.col);
     for(var r = 1; r <= board.row; r++) {
         for(var c = 1; c <= board.col; c++){
-            //TODO Adding the new cells to the grid is the problem!!!
             var numNeighbors = getNumNeighbors(r, c);
-            //console.log(" " + numNeighbors);
             if(board.grid[r][c].isAlive){
                 if(numNeighbors < 2 || numNeighbors > 3){
                     newBoard.grid[r][c] = new Cell(r, c, 0, false);
@@ -116,7 +115,6 @@ function repaint() {
                 ctx.fillRect((r-1) * (500 / board.row), (c-1) * (500 / board.col), (500 / board.row), (500 / board.col));
             }
             ctx.strokeRect((r-1) * (500 / board.row), (c-1) * (500 / board.col), (500 / board.row), (500 / board.col));
-            //ctx.closePath();
         }
     }
 }
@@ -156,6 +154,3 @@ function getNumNeighbors(row, col) {
     return count;
 
 }
-
-//radians = (Math.PI/180)*degrees
-
