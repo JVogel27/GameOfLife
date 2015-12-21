@@ -29,7 +29,9 @@ function Cell(row, col, age, isAlive){
 }
 
 $(document).ready(function(){
-    initBoard();
+    var density = $('#density').val();
+    //TODO validate!
+    initBoard(density);
 
     //Set up buttons
     $("#start").click(function(){
@@ -44,14 +46,18 @@ $(document).ready(function(){
         clearInterval(interval);
         actionPerformed();
     });
+
     $("#reset").click(function(){
         clearInterval(interval);
-        initBoard();
+        var density = $('#density').val();
+        //TODO validate!
+        //TODO put this in a subroutine
+        initBoard(density);
     })
 
 });
 
-function initBoard(){
+function initBoard(density){
     //TODO these values will be read from controls
     var x = 50;
     var y = 50;
@@ -62,7 +68,7 @@ function initBoard(){
         for (var c = 1; c <= y; c++) {
             var isAlive = false;
             var rand = Math.random();
-            if (rand < 0.2) {
+            if (rand < density) {
                 isAlive = true;
             }
             grid[r][c] = new Cell(r, c, 0, isAlive);
