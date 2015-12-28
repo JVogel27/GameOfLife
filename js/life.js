@@ -29,58 +29,74 @@ function Cell(row, col, age, isAlive){
 }
 
 $(document).ready(function(){
-    var density = $('#density').val();
-    initBoard(density);
+    //buttons
+    var toggleStart = $('#toggleStart');
+    var step = $('#step');
+    var reset = $('#reset');
+    //sliders
+    var density = $('#density');
+    var speed = $('#speed');
+
+    var densityVal = density.val();
+    initBoard(densityVal);
 
     //Set up buttons
-    $("#start").click(function(){
+    toggleStart.click(function(){
         clearInterval(interval);
-        var speed = $("#speed").val();
-        interval = setInterval(actionPerformed, speed);
+        var state = toggleStart.html();
+        switch(state){
+            case 'Start':
+                var speedVal = speed.val();
+                interval = setInterval(actionPerformed, speedVal);
+                toggleStart.html("Stop");
+                break;
+            case 'Stop':
+                clearInterval(interval);
+                interval = null;
+                toggleStart.html("Start");
+                break;
+        }
     });
 
-    $("#stop").click(function(){
-        clearInterval(interval);
-        interval = null;
-    });
-
-    $("#step").click(function(){
+    step.click(function(){
         clearInterval(interval);
         actionPerformed();
     });
 
-    $("#reset").click(function(){
+    reset.click(function(){
         clearInterval(interval);
-        var density = $('#density').val();
-        initBoard(density);
+        var densityVal = density.val();
+        initBoard(densityVal);
     });
 
-    //Update speed reading
-    $("#speed").on("input", function(){
-        $("#speedVal").html($(this).val());
+    //Update displayed speed value as the user slides
+    speed.on("input", function(){
+        $("#speedReading").html(speed.val());
     });
 
-    //change interval after each adjustment
-    $("#speed").on("change", function(){
-        //only change it if the user has already started
+    //change interval after each user releases slider
+    speed.on("change", function(){
+        //only change it if the user has already started the animation
         if(interval != null) {
             clearInterval(interval);
-            interval = setInterval(actionPerformed, $(this).val());
+            interval = setInterval(actionPerformed, speed.val());
         }
     });
 
-    $("#density").on("input", function(){
-        $("#densityVal").html($(this).val());
+    //Update displayed density value as the user slides
+    density.on("input", function(){
+        var val = density.val();
+        val = parseFloat(val).toFixed(2);
+        $("#densityReading").html(val);
     });
 
     //change density after each adjustment
-    $("#density").on("change", function(){
+    density.on("change", function(){
         //only update density if the user hasn't started
         if(interval == null) {
-            initBoard($(this).val());
+            initBoard(density.val());
         }
     });
-
 });
 
 function initBoard(density){
@@ -137,7 +153,7 @@ function actionPerformed(){
  * paints the board according to the state of each cell
  */
 function repaint() {
-    var canvas = document.getElementById('life');
+    var canvas = $('#life')[0];
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, 500, 500);
     for(var r = 1; r <= board.row; r++) {
@@ -184,5 +200,4 @@ function getNumNeighbors(row, col) {
         count = count + 1;
     }
     return count;
-
 }

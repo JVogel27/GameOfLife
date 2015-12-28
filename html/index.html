@@ -17,19 +17,18 @@
     <div id="board">
         <canvas id="life" width="500" height="500"></canvas>
     </div>
-    <h3 id="controlsTitle">Simulation Controls</h3>
+    <h3 id="controlsTitle">Controls</h3>
     <div id="controls">
         <div class="section buttons">
-            <button id="start">Start</button>
-            <button id="stop">Stop</button><br/>
-            <button id="step">Step</button>
-            <button id="reset">reset</button>
+            <a id="toggleStart" class="button noselect">Start</a>
+            <a id="step" class="button noselect">Step</a>
+            <a id="reset" class="button noselect">Reset</a>
         </div>
         <div class="section sliders">
-            <p>Density: <span id="densityVal">0.2</span></p>
+            <p>Density: <span id="densityReading">0.20</span></p>
             <input id="density" type="range" min="0.0" max="1.0" value="0.2" step=".05" />
-            <p>Speed: <span id="speedVal">500</span> (ms)</p>
-            <input id="speed" type="range" min="10" max="1000" value="500" step="10"/>
+            <p>Speed: <span id="speedReading">500</span> (ms)</p>
+            <input id="speed" type="range" min="100" max="1000" value="500" step="100"/>
         </div>
     </div>
 </div>
