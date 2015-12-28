@@ -36,7 +36,7 @@ $(document).ready(function(){
     //Set up buttons
     $("#start").click(function(){
         clearInterval(interval);
-        var speed = $("input[name=speed]:checked").val();
+        var speed = $("#speed").val();
         interval = setInterval(actionPerformed, speed);
     });
 
@@ -55,7 +55,17 @@ $(document).ready(function(){
         //TODO validate!
         //TODO put this in a subroutine
         initBoard(density);
-    })
+    });
+
+
+    $("#speed").on("input", function(){
+        $("#range").html($(this).val());
+    });
+
+    $("#speed").on("change", function(){
+        clearInterval(interval);
+        interval = setInterval(actionPerformed, $(this).val());
+    });
 
 });
 
