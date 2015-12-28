@@ -5,7 +5,7 @@
 
 //globals
 var board;
-var interval;
+var interval = null;
 
 //objects
 function Board(row, col){
@@ -30,7 +30,6 @@ function Cell(row, col, age, isAlive){
 
 $(document).ready(function(){
     var density = $('#density').val();
-    //TODO validate!
     initBoard(density);
 
     //Set up buttons
@@ -42,6 +41,7 @@ $(document).ready(function(){
 
     $("#stop").click(function(){
         clearInterval(interval);
+        interval = null;
     });
 
     $("#step").click(function(){
@@ -52,19 +52,33 @@ $(document).ready(function(){
     $("#reset").click(function(){
         clearInterval(interval);
         var density = $('#density').val();
-        //TODO validate!
-        //TODO put this in a subroutine
         initBoard(density);
     });
 
-
+    //Update speed reading
     $("#speed").on("input", function(){
-        $("#range").html($(this).val());
+        $("#speedVal").html($(this).val());
     });
 
+    //change interval after each adjustment
     $("#speed").on("change", function(){
-        clearInterval(interval);
-        interval = setInterval(actionPerformed, $(this).val());
+        //only change it if the user has already started
+        if(interval != null) {
+            clearInterval(interval);
+            interval = setInterval(actionPerformed, $(this).val());
+        }
+    });
+
+    $("#density").on("input", function(){
+        $("#densityVal").html($(this).val());
+    });
+
+    //change density after each adjustment
+    $("#density").on("change", function(){
+        //only update density if the user hasn't started
+        if(interval == null) {
+            initBoard($(this).val());
+        }
     });
 
 });

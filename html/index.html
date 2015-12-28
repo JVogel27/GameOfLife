@@ -19,18 +19,16 @@
     </div>
     <h3 id="controlsTitle">Simulation Controls</h3>
     <div id="controls">
-        <div class="section">
+        <div class="section buttons">
             <button id="start">Start</button>
             <button id="stop">Stop</button><br/>
             <button id="step">Step</button>
             <button id="reset">reset</button>
         </div>
-        <div class="section">
-            <p>Density: </p>
-            <input id="density" type="text" name="density" value="0.2" maxlength="5" />
-        </div>
-        <div class="section">
-            <p>Speed: <span id="range">500</span> (ms)</p>
+        <div class="section sliders">
+            <p>Density: <span id="densityVal">0.2</span></p>
+            <input id="density" type="range" min="0.0" max="1.0" value="0.2" step=".05" />
+            <p>Speed: <span id="speedVal">500</span> (ms)</p>
             <input id="speed" type="range" min="10" max="1000" value="500" step="10"/>
         </div>
     </div>
