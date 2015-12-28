@@ -29,6 +29,7 @@ function Cell(row, col, age, isAlive){
 }
 
 $(document).ready(function(){
+    var started = false;
     //buttons
     var toggleStart = $('#toggleStart');
     var step = $('#step');
@@ -46,9 +47,11 @@ $(document).ready(function(){
         var state = toggleStart.html();
         switch(state){
             case 'Start':
+                started = true;
                 var speedVal = speed.val();
                 interval = setInterval(actionPerformed, speedVal);
                 toggleStart.html("Stop");
+                density[0].disabled = true;
                 break;
             case 'Stop':
                 clearInterval(interval);
@@ -59,12 +62,17 @@ $(document).ready(function(){
     });
 
     step.click(function(){
+        toggleStart.html("Start");
         clearInterval(interval);
         actionPerformed();
     });
 
     reset.click(function(){
+        started = false;
+        density[0].disabled = false;
         clearInterval(interval);
+        interval = null;
+        toggleStart.html("Start");
         var densityVal = density.val();
         initBoard(densityVal);
     });
@@ -77,7 +85,7 @@ $(document).ready(function(){
     //change interval after each user releases slider
     speed.on("change", function(){
         //only change it if the user has already started the animation
-        if(interval != null) {
+        if(interval != null && toggleStart.html() == "Stop") {
             clearInterval(interval);
             interval = setInterval(actionPerformed, speed.val());
         }
@@ -93,9 +101,9 @@ $(document).ready(function(){
     //change density after each adjustment
     density.on("change", function(){
         //only update density if the user hasn't started
-        if(interval == null) {
+        //if(interval == null && !started) {
             initBoard(density.val());
-        }
+        //}
     });
 });
 
