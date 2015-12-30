@@ -4,6 +4,9 @@
  **/
 
 //globals
+//TODO these values will be read from controls
+var x = 100;
+var y = 100;
 var board;
 var interval = null;
 
@@ -29,11 +32,14 @@ function Cell(row, col, age, isAlive){
 }
 
 $(document).ready(function(){
+
+
     var started = false;
     //buttons
     var toggleStart = $('#toggleStart');
     var step = $('#step');
     var reset = $('#reset');
+    var clear = $("#clear");
     //sliders
     var density = $('#density');
     var speed = $('#speed');
@@ -47,34 +53,46 @@ $(document).ready(function(){
         var state = toggleStart.html();
         switch(state){
             case 'Start':
+                toggleStart.html("Stop");
                 started = true;
+                density[0].disabled = true;
                 var speedVal = speed.val();
                 interval = setInterval(actionPerformed, speedVal);
-                toggleStart.html("Stop");
-                density[0].disabled = true;
                 break;
             case 'Stop':
-                clearInterval(interval);
-                interval = null;
                 toggleStart.html("Start");
+                interval = null;
+                clearInterval(interval);
                 break;
         }
     });
 
     step.click(function(){
         toggleStart.html("Start");
+        started = true;
+        density[0].disabled = true;
         clearInterval(interval);
         actionPerformed();
     });
 
     reset.click(function(){
+        toggleStart.html("Start");
         started = false;
-        density[0].disabled = false;
         clearInterval(interval);
         interval = null;
-        toggleStart.html("Start");
+        density[0].disabled = false;
         var densityVal = density.val();
         initBoard(densityVal);
+
+    });
+
+    clear.click(function(){
+        clearInterval();
+        toggleStart.html("Start");
+        interval = null;
+        started = false;
+        density[0].disabled = false;
+        initBoard(0);
     });
 
     //Update displayed speed value as the user slides
@@ -100,17 +118,23 @@ $(document).ready(function(){
 
     //change density after each adjustment
     density.on("change", function(){
-        //only update density if the user hasn't started
-        //if(interval == null && !started) {
-            initBoard(density.val());
-        //}
+        initBoard(density.val());
     });
+
+    //Set the pattern to be loaded
+    $("#selectPattern li").click(function(){
+        var text = $(this).text();
+        $("#selectedPattern").html(text + " " + '<span class="caret"></span>');
+    });
+
+    $("#loadPattern").click(function(){
+        var pattern = $("#selectedPattern").text();
+        //TODO load the pattern
+    });
+
 });
 
 function initBoard(density){
-    //TODO these values will be read from controls
-    var x = 50;
-    var y = 50;
     board = new Board(x, y);
     //initialize grid to random
     var grid = board.grid;
@@ -162,15 +186,17 @@ function actionPerformed(){
  */
 function repaint() {
     var canvas = $('#life')[0];
+    var width = canvas.width;
+    var height = canvas.height;
     var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, 500, 500);
+    ctx.clearRect(0, 0, width, height);
     for(var r = 1; r <= board.row; r++) {
         for (var c = 1; c <= board.col; c++) {
             if (board.grid[r][c].isAlive) {
                 ctx.fillStyle = "rgb(200,0,0)";
-                ctx.fillRect((r-1) * (500 / board.row), (c-1) * (500 / board.col), (500 / board.row), (500 / board.col));
+                ctx.fillRect((r-1) * (height / board.row), (c-1) * (width / board.col), (height / board.row), (width / board.col));
             }
-            ctx.strokeRect((r-1) * (500 / board.row), (c-1) * (500 / board.col), (500 / board.row), (500 / board.col));
+            ctx.strokeRect((r-1) * (height / board.row), (c-1) * (width / board.col), (height / board.row), (width / board.col));
         }
     }
 }
