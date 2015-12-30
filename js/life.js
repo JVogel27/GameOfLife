@@ -33,8 +33,32 @@ function Cell(row, col, age, isAlive){
 
 $(document).ready(function(){
 
+    var canvas = $("#life");
 
-    var started = false;
+    canvas.click(function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        canvas = $("#life");
+        var cs = getComputedStyle(canvas[0]);
+        var width = parseInt(cs.getPropertyValue('width'), 10);
+        var height = parseInt(cs.getPropertyValue('height'), 10);
+
+        var mouseX = e.pageX-(canvas.offset().left);
+        var mouseY = e.pageY-(canvas.offset().top);
+
+        var r = parseInt(mouseX/(width/x));
+        var c = parseInt(mouseY/(height/y));
+
+        if(board.grid[r+1][c+1].isAlive){
+            board.grid[r+1][c+1].isAlive = false;
+        }
+        else{
+            board.grid[r+1][c+1].isAlive = true;
+        }
+        repaint();
+    });
+
     //buttons
     var toggleStart = $('#toggleStart');
     var step = $('#step');
@@ -54,13 +78,14 @@ $(document).ready(function(){
         switch(state){
             case 'Start':
                 toggleStart.html("Stop");
-                started = true;
+                toggleStart.removeClass("btn-success").addClass("btn-danger");
                 density[0].disabled = true;
                 var speedVal = speed.val();
                 interval = setInterval(actionPerformed, speedVal);
                 break;
             case 'Stop':
                 toggleStart.html("Start");
+                toggleStart.removeClass("btn-danger").addClass("btn-success");
                 interval = null;
                 clearInterval(interval);
                 break;
@@ -69,7 +94,7 @@ $(document).ready(function(){
 
     step.click(function(){
         toggleStart.html("Start");
-        started = true;
+        toggleStart.removeClass("btn-danger").addClass("btn-success");
         density[0].disabled = true;
         clearInterval(interval);
         actionPerformed();
@@ -77,7 +102,7 @@ $(document).ready(function(){
 
     reset.click(function(){
         toggleStart.html("Start");
-        started = false;
+        toggleStart.removeClass("btn-danger").addClass("btn-success");
         clearInterval(interval);
         interval = null;
         density[0].disabled = false;
@@ -87,10 +112,10 @@ $(document).ready(function(){
     });
 
     clear.click(function(){
-        clearInterval();
+        clearInterval(interval);
         toggleStart.html("Start");
+        toggleStart.removeClass("btn-danger").addClass("btn-success");
         interval = null;
-        started = false;
         density[0].disabled = false;
         initBoard(0);
     });
