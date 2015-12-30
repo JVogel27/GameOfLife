@@ -20,6 +20,7 @@ body{
 #controls{
     background-color: #e8e3e3;
     min-height: 250px;
+    padding: 10px 15px;
 }
 #controls #sliders{
     margin-top: 10px;

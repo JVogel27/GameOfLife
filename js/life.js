@@ -189,7 +189,7 @@ function actionPerformed(){
                     newBoard.grid[r][c] = new Cell(r, c, 0, false);
                 }
                 else{
-                    newBoard.grid[r][c] = new Cell(r, c, 0, true);
+                    newBoard.grid[r][c] = new Cell(r, c, board.grid[r][c].age+1, true);
                 }
             }
             else {
@@ -218,7 +218,9 @@ function repaint() {
     for(var r = 1; r <= board.row; r++) {
         for (var c = 1; c <= board.col; c++) {
             if (board.grid[r][c].isAlive) {
-                ctx.fillStyle = "rgb(200,0,0)";
+                var age = board.grid[r][c].age
+                var color = 255 - (age*25);
+                ctx.fillStyle = "rgb(" + color + ",0,0)";
                 ctx.fillRect((r-1) * (height / board.row), (c-1) * (width / board.col), (height / board.row), (width / board.col));
             }
             ctx.strokeRect((r-1) * (height / board.row), (c-1) * (width / board.col), (height / board.row), (width / board.col));
