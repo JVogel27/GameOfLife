@@ -2,33 +2,85 @@
 <html lang="en">
 <head>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    <link href="../css/index.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="../js/patterns.js"></script>
     <script language="JavaScript" type="text/javascript" src="../js/life.js"></script>
     <meta charset="UTF-8">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <link href="../css/index.css" rel="stylesheet" type="text/css"/>
+
     <title>Jesse's Game of Life</title>
 </head>
 <body>
-<div id="wrapper">
-    <div id="title">
-        <h1>Jesse's Game of Life</h1>
-        <h3>A Javascript Implementation</h3>
-    </div>
-    <div id="board">
-        <canvas id="life" width="500" height="500"></canvas>
-    </div>
-    <h3 id="controlsTitle">Controls</h3>
-    <div id="controls">
-        <div class="section buttons">
-            <a id="toggleStart" class="button noselect">Start</a>
-            <a id="step" class="button noselect">Step</a>
-            <a id="reset" class="button noselect">Reset</a>
+<div class="container">
+    <div class="row">
+        <div id="title">
+            <h1>Conway's Game of Life</h1>
+            <h4>A Javascript Implementation by Jesse</h4>
         </div>
-        <div class="section sliders">
-            <p>Starting Density: <span id="densityReading">0.20</span></p>
-            <input id="density" type="range" min="0.0" max="1.0" value="0.2" step=".05" />
-            <p>Animation Speed: <span id="speedReading">500</span> (ms)</p>
-            <input id="speed" type="range" min="100" max="1000" value="500" step="100"/>
+    </div>
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-0">
+            <div id="game">
+                <div id="board">
+                    <canvas id="life" width="1500" height="1500"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="controls" class="col-xs-12 col-md-4">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 id="controlsLabel">Animation Controls</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div id="buttons" class="col-xs-8 col-sm-5 col-md-12">
+                    <div class="btn-group btn-group-md" role="group" aria-label="...">
+                        <button id="toggleStart" type="button" class="btn btn-default noselect">Start</button>
+                        <button id="step" type="button" class="btn btn-default noselect">Step</button>
+                        <button id="reset" type="button" class="btn btn-default noselect">Reset</button>
+                        <button id="clear" type="button" class="btn btn-default noselect">Clear</button>
+                    </div>
+                </div>
+                <div id="sliders" class="col-xs-7 col-sm-7 col-md-12">
+                    <p>Starting Density: <span id="densityReading">0.20</span></p>
+                    <input id="density" type="range" min="0.0" max="1.0" value="0.2" step=".05" />
+                    <p>Animation Speed: <span id="speedReading">500</span> (ms)</p>
+                    <input id="speed" type="range" min="100" max="1000" value="500" step="100"/>
+                </div>
+            </div>
+            <div id="patterns" class="row">
+                <div class="col-xs-12">
+                    <h3 id="patternsLabel">Patterns</h3>
+                </div>
+                <div class="col-xs-12">
+                    <div class="btn-group">
+                        <button id="selectedPattern" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select Pattern <span class="caret"></span></button>
+                        <ul id="selectPattern" class="dropdown-menu scrollable-menu" role="menu">
+                            <li><a id="gosper">Gosper Glider Gun</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                        </ul>
+                    </div>
+                    <button id="loadPattern" type="button" class="btn btn-default" >Load</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
