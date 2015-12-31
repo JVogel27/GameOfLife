@@ -21,18 +21,17 @@
     <div class="row">
         <div id="title">
             <h1>Conway's Game of Life</h1>
-            <h4>A Javascript Implementation</h4>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-0">
+        <div class="col-xs-10 col-xs-offset-1 col-md-7 col-md-offset-0">
             <div id="game">
                 <div id="board">
                     <canvas id="life" class="noselect" width="1500" height="1500"></canvas>
                 </div>
             </div>
         </div>
-        <div id="controls" class="col-xs-12 col-md-4">
+        <div id="controls" class="col-xs-12 col-md-5 well">
             <div class="row">
                 <div class="col-xs-12">
                     <h3 id="controlsLabel">Animation Controls</h3>
@@ -49,9 +48,9 @@
                 </div>
                 <div id="sliders" class="col-xs-7 col-md-12">
                     <p>Starting Density: <span id="densityReading">0.20</span></p>
-                    <input id="density" type="range" min="0.0" max="1.0" value="0.2" step=".05" />
+                    <input id="density" type="range" min="0.0" max="1.0" value="0.2" step=".05" data-toggle="tooltip" title=""/>
                     <p>Animation Speed: <span id="speedReading">500</span> (ms)</p>
-                    <input id="speed" type="range" min="100" max="1000" value="500" step="100"/>
+                    <input id="speed" type="range" min="100" max="1000" value="500" step="10"/>
                 </div>
             </div>
             <div id="patterns" class="row">
@@ -63,24 +62,26 @@
                         <button id="selectedPattern" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select Pattern <span class="caret"></span></button>
                         <ul id="selectPattern" class="dropdown-menu scrollable-menu" role="menu">
                             <li><a id="gosper">Gosper Glider Gun</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
+                            <li><a >Pattern 2</a></li>
+                            <li><a >Pattern 3</a></li>
+                            <li><a >Pattern 4</a></li>
+                            <li><a >Pattern 5</a></li>
+                            <li><a >Pattern 6</a></li>
+                            <li><a >Pattern 7</a></li>
+
                         </ul>
                     </div>
                     <button id="loadPattern" type="button" class="btn btn-default" >Load</button>
                 </div>
             </div>
+        </div>
+        <div class="col-xs-12 col-md-5 well">
+            <strong>The Game of Life</strong> is not like any other games. In fact, calling it a game can be misleading.
+            There are no players, no points, and no winners. Instead there are only live cells, dead cells, and a
+            simple set of rules to follow. The Game of Life is better known as a "cellular automation"
+            first created by the British mathematician John Conway in 1970.
+            More information about The Game of Life can be found
+            <a target="_blank" href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">here.</a>
         </div>
     </div>
 </div>
