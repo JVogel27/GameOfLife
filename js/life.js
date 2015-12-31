@@ -35,30 +35,6 @@ $(document).ready(function(){
 
     var canvas = $("#life");
 
-    canvas.click(function(e){
-        e.preventDefault();
-        e.stopPropagation();
-
-        canvas = $("#life");
-        var cs = getComputedStyle(canvas[0]);
-        var width = parseInt(cs.getPropertyValue('width'), 10);
-        var height = parseInt(cs.getPropertyValue('height'), 10);
-
-        var mouseX = e.pageX-(canvas.offset().left);
-        var mouseY = e.pageY-(canvas.offset().top);
-
-        var r = parseInt(mouseX/(width/x));
-        var c = parseInt(mouseY/(height/y));
-
-        if(board.grid[r+1][c+1].isAlive){
-            board.grid[r+1][c+1].isAlive = false;
-        }
-        else{
-            board.grid[r+1][c+1].isAlive = true;
-        }
-        repaint();
-    });
-
     //buttons
     var toggleStart = $('#toggleStart');
     var step = $('#step');
@@ -71,40 +47,69 @@ $(document).ready(function(){
     var densityVal = density.val();
     initBoard(densityVal);
 
-    //Set up buttons
+    //Set up listeners
+    canvas.click(function(e){
+        var coords = getCoords(e);
+        var r = coords.r;
+        var c = coords.c;
+        if(board.grid[r+1][c+1].isAlive){
+            board.grid[r+1][c+1].isAlive = false;
+        }
+        else{
+            board.grid[r+1][c+1].isAlive = true;
+        }
+        repaint();
+    });
+
+    var isDrawing = false;
+    canvas.on("mousedown", function(){
+        isDrawing = true;
+    });
+
+    canvas.on("mouseup", function(){
+        isDrawing = false;
+    });
+
+    canvas.on("mousemove", function(e){
+        if(!isDrawing){
+            return;
+        }
+        var coords = getCoords(e);
+        board.grid[coords.r+1][coords.c+1].isAlive = true;
+        repaint();
+    })
+
+    canvas.on("mouseleave", function(){
+        isDrawing = false;
+    })
+
     toggleStart.click(function(){
         clearInterval(interval);
         var state = toggleStart.html();
         switch(state){
             case 'Start':
-                toggleStart.html("Stop");
-                toggleStart.removeClass("btn-success").addClass("btn-danger");
+                setStartStop("Stop");
                 density[0].disabled = true;
                 var speedVal = speed.val();
                 interval = setInterval(actionPerformed, speedVal);
                 break;
             case 'Stop':
-                toggleStart.html("Start");
-                toggleStart.removeClass("btn-danger").addClass("btn-success");
-                interval = null;
-                clearInterval(interval);
+                setStartStop("Start");
+                clearInt();
                 break;
         }
     });
 
     step.click(function(){
-        toggleStart.html("Start");
-        toggleStart.removeClass("btn-danger").addClass("btn-success");
+        setStartStop("Start");
         density[0].disabled = true;
-        clearInterval(interval);
+        clearInt();
         actionPerformed();
     });
 
     reset.click(function(){
-        toggleStart.html("Start");
-        toggleStart.removeClass("btn-danger").addClass("btn-success");
-        clearInterval(interval);
-        interval = null;
+        setStartStop("Start");
+        clearInt();
         density[0].disabled = false;
         var densityVal = density.val();
         initBoard(densityVal);
@@ -112,10 +117,8 @@ $(document).ready(function(){
     });
 
     clear.click(function(){
-        clearInterval(interval);
-        toggleStart.html("Start");
-        toggleStart.removeClass("btn-danger").addClass("btn-success");
-        interval = null;
+        setStartStop("Start");
+        clearInt();
         density[0].disabled = false;
         initBoard(0);
     });
@@ -157,8 +160,53 @@ $(document).ready(function(){
         //TODO load the pattern
     });
 
+    /**
+     * Subroutine to extract the row and col from the mouse position
+     * @param e - click event
+     * @returns {{r: Number, c: Number}}
+     */
+    function getCoords(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var cs = getComputedStyle(canvas[0]);
+        var width = parseInt(cs.getPropertyValue('width'), 10);
+        var height = parseInt(cs.getPropertyValue('height'), 10);
+        var mouseX = e.pageX-(canvas.offset().left);
+        var mouseY = e.pageY-(canvas.offset().top);
+        return {
+            r: parseInt(mouseX/(width/x)),
+            c: parseInt(mouseY/(height/y))
+        }
+    }
+
+    /**
+     * Toggle the appearance of the button
+     * @param set - desired state of the button
+     */
+    function setStartStop(set){
+        if(set === "Start"){
+            toggleStart.html("Start");
+            toggleStart.removeClass("btn-danger").addClass("btn-success");
+        }
+        else{
+            toggleStart.html("Stop");
+            toggleStart.removeClass("btn-success").addClass("btn-danger");
+        }
+    }
+    /**
+     * Small subroutine to stop the animation
+     */
+    function clearInt(){
+        clearInterval(interval);
+        interval = null;
+    }
+
 });
 
+/**
+ * Creates first generation of cells using the density as a seed.
+ * @param density - percentage of cells that should start out alive
+ */
 function initBoard(density){
     board = new Board(x, y);
     //initialize grid to random
@@ -219,7 +267,7 @@ function repaint() {
         for (var c = 1; c <= board.col; c++) {
             if (board.grid[r][c].isAlive) {
                 var age = board.grid[r][c].age
-                var color = 255 - (age*25);
+                var color = 255 - (age*25);     //adjust color based on age
                 ctx.fillStyle = "rgb(" + color + ",0,0)";
                 ctx.fillRect((r-1) * (height / board.row), (c-1) * (width / board.col), (height / board.row), (width / board.col));
             }
