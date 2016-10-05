@@ -5,8 +5,8 @@
 
 //globals
 //TODO these values will be read from controls
-var x = 100;
-var y = 100;
+var x = 76;
+var y = 76;
 var board;
 var interval = null;
 
@@ -157,7 +157,11 @@ $(document).ready(function(){
 
     $("#loadPattern").click(function(){
         var pattern = $("#selectedPattern").text();
-        //TODO load the pattern
+        board = loadPattern(pattern, x, y);
+        setStartStop("Start");
+        clearInt();
+        density[0].disabled = false;
+        repaint();
     });
 
     /**
